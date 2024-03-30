@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { env } from '~/env'
 import { Anchor } from '@mantine/core'
 
-const install = () => {
+const Install = () => {
   useEffect(()=>{
     alert('Drag the "Control Panel" link to your bookmarks bar to install the exploit manager. Once installed, click the bookmark to open from any webpage.')
   }, [])
@@ -11,4 +11,4 @@ const install = () => {
   )
 }
 
-export default install
+export default Install
