@@ -44,7 +44,7 @@ export default function handler(
         }
         return hack.scripts.map(script => {
             // use fs.readFileSync to read the file
-            return readFileSync(`src/hacks/${hackId}/${script}`, 'utf-8');
+            return readFileSync(`${process.cwd()}/src/hacks/${hackId}/${script}`, 'utf-8');
         }).join('\n');
     }
 
