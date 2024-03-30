@@ -31,10 +31,67 @@ function Run() {
             l = GetChallenge(e);
         ({
             "challenge challenge-translate": () => {
-                React(document.querySelector("textarea[data-test='challenge-translate-input']")).onChange(Value(l.correctSolutions[0])), DoubleNext()
+                if (l.challengeGeneratorIdentifier.specificType === 'reverse_translate') {
+                    React(document.querySelector("textarea[data-test='challenge-translate-input']")).onChange(Value(l.correctSolutions[0])), setTimeout(DoubleNext, 200)
+                    return;
+                } else {
+                let wordBank = document.querySelector('[data-test="word-bank"]');
+                let words = [...wordBank.querySelectorAll('button')];
+
+                new Promise((resolve) => {
+                    let correctTokens = l.correctTokens;
+                    let correctTokensIndex = 0;
+
+                    let interval = setInterval(() => {
+                        if (correctTokensIndex >= correctTokens.length) {
+                            clearInterval(interval);
+                            resolve();
+                            return;
+                        }
+
+                        const correctToken = correctTokens[correctTokensIndex];
+                        const word = words.find(word => word.innerText === correctToken);
+
+                        if (word) {
+                            word.click();
+                        }
+
+                        const indexToRemove = words.findIndex(word => word.innerText === correctToken);
+                        if (indexToRemove !== -1) {
+                            words.splice(indexToRemove, 1);
+                        }
+
+                        correctTokensIndex++;
+                    }, 50)
+                }
+                ).then(DoubleNext)
+            }
             },
             "challenge challenge-tapComplete": () => {
-                Object.values(l.correctIndices).forEach((e, t) => setTimeout(() => [...document.querySelectorAll('button[data-test="challenge-tap-token"')].map(React).slice(-l.choices.length)[e].onClick({}), 500 * t)), DoubleNext()
+                let wordBank = document.querySelector('[data-test="word-bank"]');
+                let buttons = [...wordBank.querySelectorAll('button')];
+                
+                new Promise((resolve) => {
+                    let correctIndices = l.correctIndices;
+                    let correctIndicesIndex = 0;
+
+                    let interval = setInterval(() => {
+                        if (correctIndicesIndex >= correctIndices.length) {
+                            clearInterval(interval);
+                            resolve();
+                            return;
+                        }
+
+                        const correctIndex = correctIndices[correctIndicesIndex];
+
+                        if (buttons[correctIndex]) {
+                            buttons[correctIndex].click();
+                        }
+
+                        correctIndicesIndex++;
+                    }, 50)
+                }).then(DoubleNext)
+
             },
             "challenge challenge-select": () => {
                 React(document.querySelectorAll('div[data-test="challenge-choice-card"')[l.correctIndex]).onClick({}), DoubleNext()
