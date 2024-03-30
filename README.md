@@ -32,10 +32,10 @@ export default {
   visible: true,
   functions: {},
   dependencies: [],
-  scripts: ['code.js'],
+  scripts: ['main.js'],
 };
 ```
-3. Create a `code.js` file in the new folder. Note that this must be written in JavaScript, not TypeScript.
+3. Create a `main.js` file in the new folder. Note that this must be written in JavaScript, not TypeScript.
 4. Add the new hack to the `hacks` array in `src/hacks/index.ts`
 5. Run `bun dev` to see the new hack in the control panel
 

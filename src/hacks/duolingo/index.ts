@@ -7,5 +7,5 @@ export default {
     Stop: 'Stop',
   },
   dependencies: [],
-  scripts: ['code.js'],
+  scripts: ['main.js'],
 };
