@@ -1,17 +1,14 @@
-import { type AppType } from "next/app";
-import { Inter } from "next/font/google";
+import { createTheme, MantineProvider } from "@mantine/core";
+import { type AppType } from "next/dist/shared/lib/utils";
+import Head from "next/head";
+import { useState, useEffect } from "react";
+import { Timer } from "~/components/Timer";
+import { MessengerProvider } from "~/components/Messenger";
 
 import { api } from "~/utils/api";
 
 import "~/styles/globals.css";
-import { createTheme, MantineProvider } from "@mantine/core";
-import { useState, useEffect } from "react";
-import Head from "next/head";
-import { Timer } from "~/components/Timer";
-
-const inter = Inter({
-  subsets: ["latin"],
-});
+import '@mantine/core/styles.css';
 
 const theme = createTheme({
   primaryColor: "green",
@@ -30,10 +27,10 @@ const MyApp: AppType = ({ Component, pageProps }) => {
 
     return () => clearInterval(interval);
   }, []);
-  
+
+
   return (
     <MantineProvider theme={theme}>
-      <main className={inter.className}>
       <Head>
         <title>Control Panel</title>
         <meta name="description" content="Web Exploit Injection Manager" />
@@ -45,14 +42,15 @@ const MyApp: AppType = ({ Component, pageProps }) => {
           typeof window !== "undefined" && (
             window.location.pathname === "/"
           )
-        )? <Component {...pageProps} /> : (
+        )? <MessengerProvider opener={opener!}>
+          <Component {...pageProps} />
+        </MessengerProvider> : (
           <>
             <h4>Lost connection to the window.</h4>
             <Timer startTime={5} event={window.close} />
           </>
         )
       )}
-    </main>
     </MantineProvider>
   );
 };

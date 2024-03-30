@@ -1,5 +1,5 @@
 import duolingo from "./duolingo";
 
-const hacks = [
+export const hacks = [
     duolingo,
 ]

@@ -25,6 +25,7 @@ function Value(e) {
 }
 
 function Run() {
+    console.log('running hack loop')
     if (!window.location.href.includes("learn")) try {
         var e = GetQuestion(),
             l = GetChallenge(e);
@@ -83,9 +84,11 @@ function Skip() {
 }
 
 function Start(e = 1e3) {
+    console.log('Starting')
     interval = setInterval(Run, e)
 }
 
 function Stop() {
+    console.log('Stopping')
     clearInterval(interval)
 }
