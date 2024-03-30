@@ -1,5 +1,6 @@
-import duolingo from "./duolingo";
+import duolingo from '~/hacks/duolingo';
 
 export const hacks = [
-    duolingo,
-]
+  // Add hacks here
+  duolingo,
+];

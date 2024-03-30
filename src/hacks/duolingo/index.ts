@@ -1,13 +1,11 @@
 export default {
-    "id": "duolingo",
-    "name": "Duolingo",
-    "visible": true,
-    "functions": {
-        "Start": "Start",
-        "Stop": "Stop",
-    },
-    "dependencies": [],
-    "scripts": [
-        "code.js"
-    ]
-}
+  id: 'duolingo',
+  name: 'Duolingo',
+  visible: true,
+  functions: {
+    Start: 'Start',
+    Stop: 'Stop',
+  },
+  dependencies: [],
+  scripts: ['code.js'],
+};
