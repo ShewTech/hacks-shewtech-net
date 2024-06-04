@@ -1,6 +1,7 @@
 import { readFileSync } from 'fs';
 import type { NextApiRequest, NextApiResponse } from 'next';
 import UglifyJS from 'uglify-js';
+import { env } from '~/env';
 import { hacks } from '~/hacks';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -26,14 +27,23 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
     if (!hack) {
       return '';
     }
-    return hack.scripts
-      .map((script) => {
-        return readFileSync(
-          `${process.cwd()}/src/hacks/${hackId}/${script}`,
-          'utf-8'
-        );
-      })
-      .join('\n');
+    return (
+      hack.scripts
+        .map((script) => {
+          return readFileSync(
+            `${process.cwd()}/src/hacks/${hackId}/${script}`,
+            'utf-8'
+          );
+        })
+        .join('\n')
+        // find {{<env var name here>}} and replace with env.<env var name here>
+        .replace(/{{(.*?)}}/g, (match, p1: keyof typeof env) => {
+          if (!env[p1]) {
+            throw new Error(`env.${p1} is not defined`);
+          }
+          return env[p1];
+        })
+    );
   };
 
   const loadDependencies = (hackId: string) => {

@@ -1,4 +1,5 @@
 import duolingo from '~/hacks/duolingo';
+import edgenuity from '~/hacks/edgenuity';
 import gdapi from '~/hacks/gdapi';
 import gimkit from '~/hacks/gimkit';
 import shellshock from '~/hacks/shellshock';
@@ -11,4 +12,5 @@ export const hacks = [
   gimkit,
   whackabone,
   shellshock,
+  edgenuity,
 ];

@@ -29,7 +29,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   }, []);
 
   return (
-    <MantineProvider theme={theme}>
+    <MantineProvider theme={theme} forceColorScheme="dark">
       <Head>
         <title>Control Panel</title>
         <meta name="description" content="Web Exploit Injection Manager" />
