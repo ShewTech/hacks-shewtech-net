@@ -27,7 +27,7 @@ function disableNewRelic() {
  * Get Activity Type
  */
 function getActivityType() {
-  return $('#activity-title').text();
+  return $('#activity-title').text().trim();
 }
 
 /**
@@ -73,7 +73,14 @@ function Advance() {
  */
 function RegisterActivity(name, func) {
   window[0].activities = window[0].activities || {};
-  window[0].activities[name] = func.toString();
+
+  if (Array.isArray(name)) {
+    name.forEach((n) => {
+      window[0].activities[n] = func.toString();
+    });
+  } else {
+    window[0].activities[name] = func.toString();
+  }
 }
 
 /**
@@ -101,7 +108,7 @@ function ExecuteActivity(_activity) {
  */
 function initListener() {
   const listener = (event) => {
-    if (event.data.type === 'execute') eval(`(${event.data.func})()`);
+    if (event.data.type === 'execute') window[0].eval(`(${event.data.func})()`);
   };
 
   window[0].removeEventListener('message', listener);
@@ -118,3 +125,32 @@ function HideBlocker() {
     // console.warn('HideBlocker not found');
   }
 }
+
+/**
+ * Generate ChatGPT completion
+ */
+var getChatCompletion = (window[0].getChatCompletion = (
+  question,
+  prompt = 'You are a helpful AI assistant',
+  model = 'gpt-4o'
+) =>
+  fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer {{NEXT_PUBLIC_OPENAI_API_KEY}}`,
+    },
+    body: JSON.stringify({
+      model,
+      messages: [
+        {
+          role: 'system',
+          content: prompt,
+        },
+        {
+          role: 'user',
+          content: question,
+        },
+      ],
+    }),
+  }));
